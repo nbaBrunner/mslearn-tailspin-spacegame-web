@@ -17,7 +17,7 @@ variables:
   buildConfig: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '8.x'
-  proyectosGral: '$(proyectosGral)'
+  proyectosGral: '**/*.csproj'
 
 
 steps:
