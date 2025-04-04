@@ -9,59 +9,58 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-20.04'
   demands:
   - npm
 
 variables:
-  buildConfig: 'Release'
+  buildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
-  dotnetSdkVersion: '8.x'
-  proyectos: '**.*csproj'
+  dotnetSdkVersion: '6.x'
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Usar el .net SDK: $(dotnetSdkVersion)'
+  displayName: 'Use .NET SDK $(dotnetSdkVersion)'
   inputs:
     version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
-  displayName: 'Instalar npm.'
+  displayName: 'Run npm install'
   inputs:
     verbose: false
 
-- Script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
+- script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
-  displayName: 'Ejecutar tarea de gulp.'
+  displayName: 'Run gulp tasks'
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
-  displayName: 'Escribir ingormación de compilado'
+  displayName: 'Write build info'
   workingDirectory: $(wwwrootDir)
 
 - task: DotNetCoreCLI@2
-  displayName: 'Restaurar dependencias de proyecto.'
+  displayName: 'Restore project dependencies'
   inputs:
     command: 'restore'
-    projects: '$(proyectos)'
+    projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Compilar el proyecto - $(buildConfig)'
+  displayName: 'Build the project - $(buildConfiguration)'
   inputs:
     command: 'build'
-    arguments: '--no-restore --configuration $(buildConfig)'
-    projects: '$(proyectos)'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+    projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publicar el proyecto - $(buildConfig)'
+  displayName: 'Publish the project - $(buildConfiguration)'
   inputs:
     command: 'publish'
-    projects: '$(proyectos)'
-    publicWebProjects: false
-    arguments: '--no-build --configuration $(buildConfig) --output $(Build.ArtifactStagingDirectory)/$(buildConfig)'
+    projects: '**/*.csproj'
+    publishWebProjects: false
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publicar artefacto en drop.'
-  confirm: succeeded()
+  displayName: 'Publish Artifact: drop'
+  condition: succeeded()
