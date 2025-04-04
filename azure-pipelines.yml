@@ -5,12 +5,13 @@
 #13/10/2023 1037
 
 trigger:
-  branches:
-    include:
-    - '*'
-  path:
-    exclude:
-    - documentos/*
+- '*'
+  # branches:
+  #   include:
+  #   - '*'
+  # path:
+  #   exclude:
+  #   - documentos/*
 
 pool:
   vmImage: 'ubuntu-20.04'
