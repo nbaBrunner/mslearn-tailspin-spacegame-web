@@ -49,9 +49,9 @@ steps:
   displayName: 'Ejecuar puebas unitarias - $(buildConfiguration)'
   inputs:
     command: 'test'    
-    arguments: '--no-build --configuration $(buildConfiguration)'
+    arguments: '--logger "trx" --verbosity detailed --results-directory "./TestResults" --collect:"Code Coverage" --blame'
     publishTestResults: true
-    projects: '**/*.tests.csproj'
+    projects: '**/*.Tests.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish the project - $(buildConfiguration)'
