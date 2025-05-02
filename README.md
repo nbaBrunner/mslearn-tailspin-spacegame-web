@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/azdonorbertbrunner/Space%20Game%20-%20web%20-%20Tests/_apis/build/status%2FnbaBrunner.mslearn-tailspin-spacegame-web?branchName=failed-test)](https://dev.azure.com/azdonorbertbrunner/Space%20Game%20-%20web%20-%20Tests/_build/latest?definitionId=5&branchName=failed-test)
 
 # Contributing
 
