@@ -46,14 +46,14 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Install .NET Core tools from local manifest'
+  displayName: 'Instalar herramientas .net desde el manifiesto local'
   inputs:
     command: custom
     custom: tool
     arguments: 'restore'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Run unit tests - $(buildConfiguration)'
+  displayName: 'Ejecuar puebas unitarias - $(buildConfiguration)'
   inputs:
     command: 'test'
     arguments: '--no-build --configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
@@ -61,16 +61,15 @@ steps:
     projects: '**/*.Tests.csproj'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Create code coverage report'
+  displayName: 'Crear reporte de cobertura de código'
   inputs:
     command: custom
     custom: tool
     arguments: 'run reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
 
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage report'
+- task: PublishCodeCoverageResults@2
+  displayName: 'Publicar reporte de cobertura'
   inputs:
-    codeCoverageTool: 'cobertura'
     summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
 - task: DotNetCoreCLI@2
