@@ -26,7 +26,7 @@ steps:
     displayName: 'Compile Sass assets'
 
   - script: 'echo "$(Build.SourcesDirectory)"'
-    displayName: 'Compile Sass assets'
+    displayName: 'ver ruta de build.sourcedirectory'
 
   - task: gulp@1
     displayName: 'Run gulp tasks'
@@ -68,7 +68,7 @@ steps:
     inputs:
       command: custom
       custom: tool
-      arguments: 'run reportgenerator -reports:$(Build.SourceDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
+      arguments: 'run reportgenerator -reports:$(Build.SourceDirectory)/Tailspin.SpaceGame.Web.Tests/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines'
 
   - task: PublishCodeCoverageResults@2
     displayName: 'Publicar reporte de cobertura'
